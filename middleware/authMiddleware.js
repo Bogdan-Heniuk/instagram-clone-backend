@@ -11,6 +11,7 @@ module.exports = function checkIfAuth(req, res, next) {
         req.user = jwt.verify(token, process.env.SECRET)
 
         next()
+
     } catch (e) {
         return res.status(403).json({body : "Invalid token"})
     }

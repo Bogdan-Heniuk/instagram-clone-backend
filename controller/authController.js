@@ -21,7 +21,7 @@ class AuthController {
             const userExists = await User.findOne({email})
 
             if(userExists) {
-                return res.status(400).json({body : "user exists"})
+                return res.status(403).json({body : "user exists"})
             }
 
             const hashedPassword = bcrypt.hashSync(password, 7);
@@ -40,17 +40,17 @@ class AuthController {
 
             const user = await User.findOne({email})
 
-            if(!user) return res.json({message : "User not found"})
+            if(!user) return res.status(403).json({message : "User not found"})
 
             const validPassword = bcrypt.compareSync(password, user.password)
 
-            if(!validPassword) return res.json({message : "Invalid password"})
+            if(!validPassword) return res.status(403).json({message : "Invalid password"})
 
             await User.updateOne({email}, {lastLogin : new Date()})
 
             const token = generateToken(user._id, user.username, user.email, user.password, user.registered, user.status)
 
-            return res.json({token})
+            return res.status(200).json({token})
         } catch (e) {
             console.log(e);
         }

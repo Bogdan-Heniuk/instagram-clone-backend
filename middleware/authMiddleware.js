@@ -4,7 +4,7 @@ module.exports = function checkIfAuth(req, res, next) {
     if(req.method === "OPTIONS") next()
 
     try{
-        const token = req.headers.authorization
+        const token = req.headers.token
 
         if(!token) return res.json({body : "User is not authenticated"})
 

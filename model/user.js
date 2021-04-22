@@ -6,7 +6,6 @@ const User = new Schema({
     registered: {type: Date, required : true},
     lastLogin: {type: Date, default: null},
     password: {type: String, required : true},
-    status: {type: String, required : true, default: 'active'}
 })
 
 module.exports = model('User', User)

@@ -3,7 +3,6 @@ const Status = require('../model/status')
 
 class UserController {
    async getUsers (req, res) {
-
        try{
            const users = await User.find({})
            res.status(200).json(users)
@@ -55,7 +54,7 @@ class UserController {
     }
 
     async getStatus (req, res) {
-        const {id} = req.user
+        const {id} = req.query
         try {
             const response = await Status.findOne({user_id : id})
             res.status(200).json(response.status)

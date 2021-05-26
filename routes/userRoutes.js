@@ -1,9 +1,8 @@
 const express = require('express')
 const userRouter = express.Router()
-const userController = require('../controller/customerController')
 const authMiddleware = require('../middleware/authMiddleware')
 
-userRouter.get('/users',  userController.getCustomers)
+// userRouter.get('/users',  userController.getAll)
 // userRouter.delete('/users', userController.deleteUsers)
 // userRouter.patch('/users/block', userController.blockUsers)
 // userRouter.patch('/users/unblock', userController.unblockUsers)

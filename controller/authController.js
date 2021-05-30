@@ -20,7 +20,7 @@ class AuthController {
             const {username, name, email, password} = req.body
             const userExists = await User.findOne({email})
             if (userExists) {
-                return res.status(403).json({body: "user exists"})
+                return res.status(403).json({message: "Введенная вами почта уже зарегистрирована в системе"})
             }
 
             const hashedPassword = bcrypt.hashSync(password, 7);
@@ -29,7 +29,6 @@ class AuthController {
         } catch (e) {
             console.log(e)
         }
-
     }
 
     async login(req, res) {
@@ -38,11 +37,11 @@ class AuthController {
 
             const user = await User.findOne({email})
 
-            if (!user) return res.status(403).json({message: "User not found"})
+            if (!user) return res.status(403).json({message: "Введенное вами имя пользователя не принадлежит аккаунту. Проверьте свое имя пользователя и повторите попытку."})
 
             const validPassword = bcrypt.compareSync(password, user.password)
 
-            if (!validPassword) return res.status(403).json({message: "Invalid password"})
+            if (!validPassword) return res.status(403).json({message: "К сожалению, вы ввели неправильный пароль. Проверьте свой пароль еще раз."})
 
             const token = generateToken(user.id, user.username, user.name, user.email, user.password)
 

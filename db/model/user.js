@@ -5,13 +5,6 @@ class User {
         return db('users').where(condition).first()
     }
 
-    async subscriptions(user_id, subscribes) {
-        return db('following')
-            .select('subscribed_id')
-            .whereNotIn('subscribed_id', subscribes)
-            .where('subscriber_id', user_id)
-    }
-
     async recommends(user_id, subscribes) {
         return db('users')
             .select('*')

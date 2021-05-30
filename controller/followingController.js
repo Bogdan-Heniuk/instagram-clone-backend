@@ -1,9 +1,15 @@
 const Following = require('../db/model/following')
 
+
 class FollowingController {
     async follow(req, res) {
         try {
-            const {subscriber_id, subscribed_id} = req.body
+            const {subscribed_id} = req.body
+            const subscriber_id = req.user.id
+
+            const isSubscribed = await Following.checkIfSubscribed(subscriber_id, subscribed_id)
+
+            if(isSubscribed) return
 
             if (!subscriber_id || !subscribed_id)
                 return res.status(404).json({message: "not found"})
@@ -15,3 +21,5 @@ class FollowingController {
         }
     }
 }
+
+module.exports = new FollowingController()

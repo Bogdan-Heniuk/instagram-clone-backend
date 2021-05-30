@@ -2,11 +2,10 @@ const User = require('../db/model/user')
 
 class UserController {
     async getUsers (req, res) {
-        const check = await User.checkForSubscriptions(req.user.id)
-        const subscriptions_id = await User.subscriptions(req.user.id, check)
-        const subscriptions_array = subscriptions_id.map(element => element.subscribed_id)
-        console.log(subscriptions_array);
-        const users = await User.recommends(req.user.id, subscriptions_array)
+        const check = await User.checkForSubscriptions(req.user.id).then(result => result.map(element => element.subscribed_id))
+
+        const users = await User.recommends(req.user.id, check)
+        console.log(users);
         res.status(200).json(users)
     }
 }

@@ -5,6 +5,10 @@ class User {
         return db('users').where(condition).first()
     }
 
+    async find (username) {
+        return db('users').where('username', 'like', `${username}%`)
+    }
+
     async recommends(user_id, subscribes) {
         return db('users')
             .select('*')

@@ -15,7 +15,7 @@ class FollowingController {
                 return res.status(404).json({message: "not found"})
 
             await Following.subscribe(subscriber_id, subscribed_id)
-
+            res.sendStatus(200)
         } catch (e) {
             console.log(e);
         }

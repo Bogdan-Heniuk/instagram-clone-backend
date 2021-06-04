@@ -20,8 +20,8 @@ class UserController {
     }
 
     async getProfile (req, res) {
-        const {id} = req.params
-        const profileData = await User.findOne({id})
+        const {name} = req.params
+        const profileData = await User.findOne({username : name})
         res.status(200).json(profileData)
     }
 

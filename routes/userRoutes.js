@@ -7,7 +7,7 @@ const authMiddleware = require('../middleware/authMiddleware')
 userRouter.get('/users', authMiddleware, userController.getRecommends)
 userRouter.post('/users/subscribe', authMiddleware, followingController.follow)
 userRouter.post('/users/search', userController.searchForUsers)
-userRouter.get('/users/profile/:id', userController.getProfile)
+userRouter.get('/users/profile/:name', userController.getProfile)
 
 // userRouter.delete('/users', userController.deleteUsers)
 // userRouter.patch('/users/block', userController.blockUsers)

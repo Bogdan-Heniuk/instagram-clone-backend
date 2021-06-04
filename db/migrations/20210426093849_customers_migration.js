@@ -5,6 +5,7 @@ exports.up = function(knex) {
       t.string('username')
       t.string('name')
       t.string('password')
+      t.string('avatar')
       t.string('email').unique()
   })
 };

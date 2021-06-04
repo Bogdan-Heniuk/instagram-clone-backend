@@ -10,19 +10,19 @@ class UserController {
     }
 
     async searchForUsers (req, res) {
-        if(!req.body.username) {
-            res.status(200).json([])
-        } else {
             const users = await User.find(req.body.username)
 
             res.status(200).json(users)
-        }
     }
 
     async getProfile (req, res) {
         const {name} = req.params
         const profileData = await User.findOne({username : name})
         res.status(200).json(profileData)
+    }
+
+    async getImage(req, res) {
+        res.sendFile('C:/Users/genyu/WebstormProjects/backend/uploads/' + req.params.url)
     }
 
 }

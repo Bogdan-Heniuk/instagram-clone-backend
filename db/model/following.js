@@ -21,6 +21,15 @@ class Following {
             subscribed_id
         })
     }
+
+    async countFollowings (user_id) {
+        return db('following').count('id as followings').where('subscriber_id' , user_id)
+    }
+
+    async countFollowers (user_id) {
+        return db('following').count('id as followers').where('subscribed_id' , user_id)
+    }
+
     async unsubscribe(subscriber_id, subscribed_id) {
         return db('following').delete().where({
             subscriber_id,

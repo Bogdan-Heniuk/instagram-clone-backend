@@ -6,9 +6,6 @@ class FollowingController {
         try {
             const {profile_id} = req.body
             const subscriber_id = req.user.id
-            const isSubscribed = await Following.checkIfSubscribed(subscriber_id, profile_id)
-
-            if(isSubscribed) return
 
             if (!subscriber_id || !profile_id)
                 return res.status(404).json({message: "not found"})
@@ -24,9 +21,6 @@ class FollowingController {
         try {
             const {profile_id} = req.body
             const subscriber_id = req.user.id
-            const isSubscribed = await Following.checkIfSubscribed(subscriber_id, profile_id)
-
-            if(!isSubscribed) return
 
             if (!subscriber_id || !profile_id)
                 return res.status(404).json({message: "not found"})

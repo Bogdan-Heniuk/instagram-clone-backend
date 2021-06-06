@@ -19,27 +19,29 @@ class UserController {
     async getProfile(req, res) {
         const {profile_id} = req.body
         const {id} = req.user
-        const profileData = await User.findOne({id: profile_id})
-        console.log(profileData);
+
+        let profileData = await User.findOne({id: profile_id})
+
+        const followers = (await Following.countFollowers(profileData.id))[0].followers
+        const followings = (await Following.countFollowings(profileData.id))[0].followings
+
+        profileData = {...profileData, followers, followings}
         if (profile_id === id) return res.status(200).json(profileData)
+
         const isSubscribed = await Following.checkIfSubscribed(id, profileData.id)
 
-        if (isSubscribed) return res.status(200).json({...profileData, subscribed: true})
+        if (isSubscribed) {
+            profileData = {...profileData, subscribed: true}
+            return res.status(200).json(profileData)
+        }
 
-        return res.status(200).json({...profileData, subscribed: false})
+        profileData = {...profileData, subscribed: false}
+        return res.status(200).json(profileData)
 
     }
 
     async getImage(req, res) {
         res.sendFile('C:/Users/genyu/WebstormProjects/backend/uploads/' + req.params.url)
-    }
-
-    async isSubscribed(req, res) {
-        const {user_id, profile_id} = req.body
-        console.log(user_id);
-        console.log(profile_id);
-        // const test = await Following.checkIfSubscribed(user_id, profile_id)
-        // res.status(200).json({test})
     }
 
 }

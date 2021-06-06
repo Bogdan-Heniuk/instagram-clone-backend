@@ -7,15 +7,11 @@ const authMiddleware = require('../middleware/authMiddleware')
 
 userRouter.get('/users', authMiddleware, userController.getRecommends)
 userRouter.post('/users/subscribe', authMiddleware, followingController.follow)
+userRouter.post('/users/unsubscribe', authMiddleware, followingController.unfollow)
 userRouter.post('/users/search', userController.searchForUsers)
-userRouter.get('/users/profile/:name', userController.getProfile)
+userRouter.post('/users/profile', authMiddleware, userController.getProfile)
 userRouter.get('/uploads/:url', userController.getImage)
 
-// userRouter.delete('/users', userController.deleteUsers)
-// userRouter.patch('/users/block', userController.blockUsers)
-// userRouter.patch('/users/unblock', userController.unblockUsers)
-// userRouter.post('/users/status', authMiddleware, userController.postStatus)
-// userRouter.get('/users/status', authMiddleware, userController.getStatus)
 
 module.exports = userRouter
 

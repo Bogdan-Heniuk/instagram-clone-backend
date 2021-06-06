@@ -19,7 +19,7 @@ class AuthController {
     async registration(req, res) {
         try {
             const {username, name, email, password} = req.body
-            const avatar = req.file.filename
+            const avatar = req.file?.filename || null
 
             const userExists = await User.findOne({email})
 

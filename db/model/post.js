@@ -12,6 +12,10 @@ class Post {
     async create (post) {
         return db('posts').insert(post)
     }
+
+    async countPosts (user_id) {
+        return db('posts').count('id as posts').where('user_id' , user_id)
+    }
 }
 
 module.exports = new Post()

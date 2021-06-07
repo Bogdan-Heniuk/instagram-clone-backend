@@ -2,7 +2,8 @@ const Post = require('../db/model/post')
 
 class PostController {
     async get (req, res) {
-        const {id} = req.user
+        const {id} = req.params
+        console.log(id);
         const posts = await Post.get({user_id : id})
         res.status(200).json(posts)
     }

@@ -13,12 +13,45 @@ class PostController {
         res.status(201).json(post)
     }
 
-    async getFeed (req,res){
-        const {id} = req.user
-        const followings = await Following.checkForSubscriptions(id)
+    async getFeed (req, res){
+        const user_id = req.user.id
+        const followings = await Following.checkForSubscriptions(user_id)
             .then(result => result.map(element => element.subscribed_id))
-        const feed = await Post.feed(followings)
+
+        const posts = await Post.feed(followings)
+
+        const feed = await Promise.all(posts.map( async post => {
+            const likes = (await Post.countLikes(post.id))[0].likes
+            const isLiked = !!(await Post.isLiked(user_id, post.id))
+            const isSaved = !!(await Post.isSaved(user_id, post.id))
+            return {...post, isLiked, isSaved, likes}
+        }))
+
         res.status(200).json(feed)
+    }
+
+    async likePost (req, res) {
+        const user_id = req.user.id
+        const {post_id} = req.body
+
+        const isLiked = await Post.isLiked(user_id, post_id)
+        if(isLiked) return res.status(403).json({message : "forbidden"})
+
+        await Post.like(user_id, post_id)
+        res.status(201).json({message : "ok"})
+
+    }
+
+    async dislikePost (req, res) {
+        const user_id = req.user.id
+        const {post_id} = req.body
+
+        const isLiked = await Post.isLiked(user_id, post_id)
+        if(!isLiked) return res.status(403).json({message : "forbidden"})
+
+        await Post.dislike(user_id, post_id)
+        res.status(201).json({message : "ok"})
+
     }
 }
 

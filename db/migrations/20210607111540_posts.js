@@ -5,7 +5,6 @@ exports.up = function(knex) {
         t.integer('user_id')
         t.text('description')
         t.string('image')
-        t.integer('likes').defaultTo(0)
     })
 };
 

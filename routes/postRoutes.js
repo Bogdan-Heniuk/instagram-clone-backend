@@ -7,5 +7,7 @@ const authMiddleware = require('../middleware/authMiddleware')
 postRouter.get('/:id', authMiddleware, postController.get)
 postRouter.post('/', authMiddleware, upload.single('image'), postController.create)
 postRouter.get('/feed/get', authMiddleware, postController.getFeed)
+postRouter.post('/feed/like', authMiddleware, postController.likePost)
+postRouter.post('/feed/dislike', authMiddleware, postController.dislikePost)
 
 module.exports = postRouter

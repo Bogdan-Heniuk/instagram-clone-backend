@@ -3,7 +3,7 @@ exports.up = function(knex) {
     return knex.schema.createTableIfNotExists('posts', t => {
         t.increments('id')
         t.integer('user_id')
-        t.string('description')
+        t.text('description')
         t.string('image')
         t.integer('likes').defaultTo(0)
     })

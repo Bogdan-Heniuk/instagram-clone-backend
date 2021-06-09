@@ -17,12 +17,6 @@ class User {
             .limit(5)
     }
 
-    async checkForSubscriptions (user_id) {
-        return db('users')
-            .join('following', 'users.id', '=', 'following.subscriber_id')
-            .select('following.subscribed_id')
-            .where('following.subscriber_id', user_id)
-    }
 
     async postOne (user) {
         return db('users').insert(user)

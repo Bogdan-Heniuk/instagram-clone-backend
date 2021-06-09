@@ -5,8 +5,11 @@ class Post {
         return db('posts').where(condition)
     }
 
-    async find (username) {
-        return db('posts').where('username', 'like', `${username}%`)
+    async feed (followings) {
+        return db('posts')
+            .join('users', 'users.id', 'posts.user_id')
+            .select('*')
+            .whereIn('user_id', followings)
     }
 
     async create (post) {

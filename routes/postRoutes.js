@@ -6,5 +6,6 @@ const authMiddleware = require('../middleware/authMiddleware')
 
 postRouter.get('/:id', authMiddleware, postController.get)
 postRouter.post('/', authMiddleware, upload.single('image'), postController.create)
+postRouter.get('/feed/get', authMiddleware, postController.getFeed)
 
 module.exports = postRouter

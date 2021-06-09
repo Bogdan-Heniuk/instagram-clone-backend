@@ -4,7 +4,7 @@ const Post = require('../db/model/post')
 
 class UserController {
     async getRecommends(req, res) {
-        const isFollowing = await User.checkForSubscriptions(req.user.id)
+        const isFollowing = await Following.checkForSubscriptions(req.user.id)
             .then(result => result.map(element => element.subscribed_id))
 
         const users = await User.recommends(req.user.id, isFollowing)
@@ -26,6 +26,7 @@ class UserController {
         const followers = (await Following.countFollowers(profileData.id))[0].followers
         const followings = (await Following.countFollowings(profileData.id))[0].followings
         const postsNumber = (await Post.countPosts(profile_id))[0].posts
+
         profileData = {...profileData, followers, followings, postsNumber}
         if (profile_id === id) return res.status(200).json(profileData)
 

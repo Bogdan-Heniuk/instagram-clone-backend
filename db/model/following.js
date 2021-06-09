@@ -36,6 +36,12 @@ class Following {
             subscribed_id
         })
     }
+
+    async checkForSubscriptions (user_id) {
+        return db('following')
+            .select('subscribed_id')
+            .where('subscriber_id', user_id)
+    }
 }
 
 module.exports = new Following()

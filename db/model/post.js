@@ -1,8 +1,8 @@
 const db = require('../db')
 
 class Post {
-    async get (condition) {
-        return db('posts').where(condition)
+    async get (user_id) {
+        return db('posts').where('id', user_id)
     }
 
     async feed (followings) {

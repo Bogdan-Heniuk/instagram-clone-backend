@@ -2,21 +2,20 @@ const db = require('../db')
 
 class Post {
     async get (user_id) {
-        return db('posts').where('id', user_id)
+        return db('posts').where('user_id', user_id)
     }
 
     async feed (followings) {
         return db('posts')
             .join('users', 'users.id', 'posts.user_id')
-            .select('*')
+            .select('posts.id as post_id', 'users.username', 'users.avatar', 'description', 'image')
             .whereIn('user_id', followings)
     }
 
     async isLiked (user_id, post_id) {
         return db('likes')
             .select('*')
-            .where('user_id', user_id)
-            .where('post_id', post_id)
+            .where({post_id, user_id})
             .first()
     }
     async isSaved (user_id, post_id) {

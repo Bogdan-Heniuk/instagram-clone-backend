@@ -21,11 +21,12 @@ class PostController {
         const posts = await Post.feed(followings)
 
         const feed = await Promise.all(posts.map( async post => {
-            const likes = (await Post.countLikes(post.id))[0].likes
-            const isLiked = !!(await Post.isLiked(user_id, post.id))
-            const isSaved = !!(await Post.isSaved(user_id, post.id))
+            const likes = (await Post.countLikes(post.post_id))[0].likes
+            const isLiked = !!(await Post.isLiked(user_id, post.post_id))
+            const isSaved = !!(await Post.isSaved(user_id, post.post_id))
             return {...post, isLiked, isSaved, likes}
         }))
+
 
         res.status(200).json(feed)
     }

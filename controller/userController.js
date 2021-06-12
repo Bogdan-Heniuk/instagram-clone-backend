@@ -18,17 +18,17 @@ class UserController {
     }
 
     async getProfile(req, res) {
-        const {profile_id} = req.body
+        const {profile_username} = req.body
         const {id} = req.user
 
-        let profileData = await User.findOne({id: profile_id})
-        const posts = await Post.get(profile_id)
+        let profileData = await User.findOne({username: profile_username})
+        const posts = await Post.get(profileData.id)
         const followers = (await Following.countFollowers(profileData.id))[0].followers
         const followings = (await Following.countFollowings(profileData.id))[0].followings
-        const postsNumber = (await Post.countPosts(profile_id))[0].posts
+        const postsNumber = (await Post.countPosts(profileData.id))[0].posts
 
         profileData = {...profileData, followers, followings, postsNumber, posts}
-        if (profile_id === id) return res.status(200).json(profileData)
+        if (profileData.id === id) return res.status(200).json(profileData)
 
         const isSubscribed = await Following.checkIfSubscribed(id, profileData.id)
 

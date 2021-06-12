@@ -8,7 +8,7 @@ class Post {
     async feed (followings) {
         return db('posts')
             .join('users', 'users.id', 'posts.user_id')
-            .select('posts.id as post_id', 'users.username', 'users.avatar', 'description', 'image')
+            .select('posts.id as post_id', 'users.username', 'users.avatar', 'users.id as user_id','description', 'image')
             .whereIn('user_id', followings)
     }
 

@@ -20,6 +20,7 @@ class UserController {
     async getProfile(req, res) {
         const {profile_username} = req.body
         const {id} = req.user
+
         let profileData = await User.findOne({username: profile_username})
         const posts = await Post.get(profileData.id)
         const followers = (await Following.countFollowers(profileData.id))[0].followers

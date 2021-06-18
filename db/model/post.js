@@ -5,6 +5,16 @@ class Post {
         return db('posts').where('user_id', user_id)
     }
 
+    async findOne (post_id) {
+        return db('posts')
+            .join('users', 'users.id', 'posts.user_id')
+            .select('posts.id as post_id',
+                'users.username', 'users.avatar',
+                'users.id as user_id','posts.description',
+                'posts.image')
+            .where('posts.id', post_id).first()
+    }
+
     async feed (followings) {
         return db('posts')
             .join('users', 'users.id', 'posts.user_id')
@@ -45,6 +55,7 @@ class Post {
     async countLikes (post_id) {
         return db('likes').count('id as likes').where('post_id' , post_id)
     }
+
 }
 
 module.exports = new Post()

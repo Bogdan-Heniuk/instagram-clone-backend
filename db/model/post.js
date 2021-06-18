@@ -68,6 +68,14 @@ class Post {
                 'users.avatar', 'comments.text')
     }
 
+    async save (user_id, post_id) {
+        return db('saves').insert({user_id, post_id})
+    }
+
+    async unsave (user_id, post_id) {
+        return db('saves').delete().where({user_id, post_id})
+    }
+
 }
 
 module.exports = new Post()

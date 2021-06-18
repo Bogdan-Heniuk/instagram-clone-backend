@@ -81,6 +81,24 @@ class PostController {
         await Post.comment(post_id, user_id, text)
         res.sendStatus(201)
     }
+
+    async save (req, res) {
+        const user_id = req.user.id
+        const post_id = req.params.post_id
+        const isSaved = !!(await Post.isSaved(user_id, post_id))
+        if(isSaved) return res.sendStatus(403)
+        await Post.save(user_id, post_id)
+        res.sendStatus(201)
+    }
+
+    async unsave (req, res) {
+        const user_id = req.user.id
+        const post_id = req.params.post_id
+        const isSaved = !!(await Post.isSaved(user_id, post_id))
+        if(!isSaved) return res.sendStatus(403)
+        await Post.unsave(user_id, post_id)
+        res.sendStatus(201)
+    }
 }
 
 module.exports = new PostController()

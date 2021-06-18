@@ -56,6 +56,18 @@ class Post {
         return db('likes').count('id as likes').where('post_id' , post_id)
     }
 
+    async comment (user_id, post_id, text) {
+        return db('comments').insert({user_id, post_id, text})
+    }
+
+    async getComments(post_id) {
+        return db('comments')
+            .join('users', 'users.id', 'comments.user_id')
+            .where('post_id', post_id)
+            .select('users.id', 'users.username',
+                'users.avatar', 'comments.text')
+    }
+
 }
 
 module.exports = new Post()

@@ -63,7 +63,22 @@ class PostController {
         const likes = (await Post.countLikes(post_id))[0].likes
         const isLiked = !!(await Post.isLiked(user_id, post_id))
         const isSaved = !!(await Post.isSaved(user_id, post_id))
-        res.status(200).json({...post, likes, isLiked, isSaved})
+        const comments = [
+            {
+                username : post.username,
+                text : post.description,
+                avatar : post.avatar
+        },
+            ...(await Post.getComments(post_id))]
+        res.status(200).json({...post, likes, isLiked, isSaved, comments})
+    }
+
+    async comment(req, res) {
+        const {post_id} = req.params
+        const user_id = req.user.id
+        const {text} = req.body
+        await Post.comment(post_id, user_id, text)
+        res.sendStatus(201)
     }
 }
 

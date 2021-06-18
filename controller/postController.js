@@ -58,11 +58,12 @@ class PostController {
 
     async view(req, res) {
         const user_id = req.user.id
-        const post_id = Number(req.params.post_id)
+        const post_id = +req.params.post_id
         const post = await Post.findOne(post_id)
         const likes = (await Post.countLikes(post_id))[0].likes
         const isLiked = !!(await Post.isLiked(user_id, post_id))
         const isSaved = !!(await Post.isSaved(user_id, post_id))
+        // add description of post as a first comment by default
         const comments = [
             {
                 username : post.username,
@@ -74,7 +75,7 @@ class PostController {
     }
 
     async comment(req, res) {
-        const {post_id} = req.params
+        const post_id = +req.params.post_id
         const user_id = req.user.id
         const {text} = req.body
         await Post.comment(post_id, user_id, text)

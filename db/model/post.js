@@ -56,8 +56,8 @@ class Post {
         return db('likes').count('id as likes').where('post_id' , post_id)
     }
 
-    async comment (user_id, post_id, text) {
-        return db('comments').insert({user_id, post_id, text})
+    async comment (post_id, user_id, text) {
+        return db('comments').insert({post_id, user_id, text})
     }
 
     async getComments(post_id) {
